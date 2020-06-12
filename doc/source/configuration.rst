@@ -550,11 +550,13 @@ An example file is shown here:
        hold_jid: '-hold_jid'
        # Separator for job dependencies
        hold_jid_separator: ';'
-       # Option to set job names
-       array_job: '-t 1-%s'
        # Option to submit an array job
-       array_job_wquota: '-t 1-%s -tc %s'
+       array_job: '-t 1-%s'
        # Options to submit an array job with a quota
+       array_job_wquota: '-t 1-%s -tc %s'
+       # Option to specify environemnt variable with array task id
+       array_task_id: 'UGE_TASK_ID'
+       # Option to set job names
        set_job_name: '-N'
        # Option to set path of stderr file
        set_stderr: '-e'
@@ -569,11 +571,15 @@ An example file is shown here:
        identity_answer: 'slurm'
        submit: 'sbatch'
        stat: 'squeue'
+       last_error: 'cluster/util_scripts/slurm_first_error.sh'
        template: 'cluster/submit-scripts/sbatch-template.sh'
+       default_options: '--cpus-per-task=#{CORES}'
        hold_jid: '--dependency=afterany:%s'
        hold_jid_separator: ':'
-       array_job: '--array=1-%s'
-       array_job_wquota: '--array=1-%s%%%s'
+       array_job: '--array=0-%s'
+       array_job_wquota: '--array=0-%s%%%s'
+       array_out_index: '%A_%a'
+       array_task_id: 'SLURM_ARRAY_TASK_ID'
        set_job_name: '--job-name=%s'
        set_stderr: '-e'
        set_stdout: '-o'
@@ -624,10 +630,15 @@ Let's browse over the options which need to be set per cluster engine:
     ``%s`` by the quota (if above 0). A literal "%" has to be written
     as ``%%``.
 
-``array_task_id``
+``array_task_id``:
     The name of the environment variable set by the resource manager
     that contains the job array id e.g.
     ``SLURM_ARRAY_TASK_ID`` or ``SGE_TASK_ID``.
+
+``array_out_index``:
+    A string use in the log file name that may be replaced with the
+    array job id by the resource manager. E.g., on slurm ``%A`` is
+    replaced by the job id and ``%a`` by the array job id.
 
 ``set_job_name:``
     Option given to the ``submit`` command to set the job name e.g.
