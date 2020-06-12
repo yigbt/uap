@@ -43,7 +43,7 @@ class ConnectionsCollector(object):
 
     def add_empty(self, connection, run_id=None):
         '''
-        Makes a connection withou files.
+        Makes a connection without files.
         '''
         run_id = self._init_run_id(run_id)
         self.connections[run_id][connection] = [None]

@@ -335,6 +335,32 @@ executes the :ref:`volatilize <uap-volatilize>` command.
     This option allows to overwrite the values set in
     :ref:`default_job_quota <config_file_default_job_quota>`.
 
+.. _config_file_pattern_replacement:
+
+**_pattern** and **_replacement**
+
+This pair of options is used to rename the run ids produced by this
+step through regular experssions. E.g., if the produced run is called
+``Sample_1`` and should be renamed to ``Result_1``:
+
+.. code-block:: yaml
+
+    steps:
+        # the source step which depends on nothing
+        fastq_source:
+            # ...
+
+        fastx_reverse_complement:
+            _depends: fastq_source
+            _pattern: 'Sample_(.*)'
+            _replacement: 'Result_\1'
+            # ...
+
+The default values are ``_patterm: '(.*)'`` and ``_replacement: '\1'``.
+So adding only a prefix does not require ``_pattern`` to be defined
+and ``_replacement: 'prefix_\1'`` suffices. Please read the documentation
+of |re_sub| for more information.
+
 .. _config_file_tools:
 
 ``tools`` Section
@@ -704,3 +730,7 @@ cluster.
 .. |coreutils| raw:: html
 
     <a href="https://www.gnu.org/software/coreutils/manual/coreutils.html" target="_blank">GNU Core Utilities</a>
+
+.. |re_sub| raw:: html
+
+    <a href="https://docs.python.org/3/library/re.html#re.sub" target="_blank">re.sub</a>
