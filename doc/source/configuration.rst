@@ -339,9 +339,9 @@ executes the :ref:`volatilize <uap-volatilize>` command.
 
 **_pattern** and **_replacement**
 
-This pair of options is used to rename the run ids produced by this
-step through regular experssions. E.g., if the produced run is called
-``Sample_1`` and should be renamed to ``Result_1``:
+This pair of options is used to rename the run ids produced by the
+step through a regular experssion. E.g., if the produced run is called
+``Sample_<n>`` and should be renamed to ``Result_<n>``:
 
 .. code-block:: yaml
 
@@ -351,10 +351,10 @@ step through regular experssions. E.g., if the produced run is called
             # ...
 
         fastx_reverse_complement:
-            _depends: fastq_source
+            _connect:
+                in/fastx: fastq_source/raw
             _pattern: 'Sample_(.*)'
             _replacement: 'Result_\1'
-            # ...
 
 The default values are ``_patterm: '(.*)'`` and ``_replacement: '\1'``.
 So adding only a prefix does not require ``_pattern`` to be defined
