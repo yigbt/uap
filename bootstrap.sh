@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-exit
 
 # This script creates a virtual Python environment in ./python-env with all required libraries set up.
 # To use it, call Python at ./python-env/bin/python.
