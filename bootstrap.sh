@@ -25,5 +25,5 @@ pypath=`which python3`
 # get the uap directory
 dir=`dirname $0`
 
-virtualenv --python=$pypath python_env
+virtualenv --python=$pypath $dir/python_env
 $dir/python_env/bin/pip install pyyaml numpy biopython psutil cpython scipy deepdiff tqdm
