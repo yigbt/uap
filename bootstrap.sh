@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exit
+
 # This script creates a virtual Python environment in ./python-env with all required libraries set up.
 # To use it, call Python at ./python-env/bin/python.
 
@@ -21,5 +23,8 @@ fi
 # get the python3 interpreter, virtualenv uses python2 by default
 pypath=`which python3`
 
+# get the uap directory
+dir=`dirname $0`
+
 virtualenv --python=$pypath python_env
-./python_env/bin/pip install pyyaml numpy biopython psutil cpython scipy deepdiff tqdm
+$dir/python_env/bin/pip install pyyaml numpy biopython psutil cpython scipy deepdiff tqdm
