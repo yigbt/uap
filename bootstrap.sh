@@ -17,8 +17,9 @@ if [[ -n "$missing" ]]; then
     exit 1
 fi
 
-## find python3 interpreter
 
+# get the python3 interpreter, virtualenv uses python2 by default
 pypath=`which python3`
+
 virtualenv --python=$pypath python_env
 ./python_env/bin/pip install pyyaml numpy biopython psutil cpython scipy deepdiff tqdm
