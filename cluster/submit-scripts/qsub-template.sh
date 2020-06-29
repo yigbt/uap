@@ -10,19 +10,6 @@
 # Commands #
 ############
 
-set -e
-
-config=$(mktemp)
-cat << 'EOF' > "$config"
-
-#{UAP_CONFIG}
-
-EOF
-exec 123< "$config"
-rm "$config"
-
-array_jobs=(#{ARRAY_JOBS})
-
 #{PRE_JOB_COMMAND}
 
 #{COMMAND}

@@ -35,3 +35,16 @@ qstat:
     set_stderr: '-e'
     set_stdout: '-o'
     parse_job_id: 'Your job (\d+)'
+
+uge:
+    identity_test: ['qstat', '-help']
+    identity_answer: 'UGE'
+    submit: 'qsub'
+    stat: 'qstat'
+    template: 'cluster/submit-scripts/qsub-template.sh'
+    hold_jid: '-hold_jid'
+    hold_jid_separator: ';'
+    set_job_name: '-N'
+    set_stderr: '-e'
+    set_stdout: '-o'
+    parse_job_id: 'Your job (\d+)'
