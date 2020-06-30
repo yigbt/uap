@@ -356,7 +356,7 @@ step through a regular experssion. E.g., if the produced run is called
             _pattern: 'Sample_(.*)'
             _replacement: 'Result_\1'
 
-The default values are ``_patterm: '(.*)'`` and ``_replacement: '\1'``.
+The default values are ``_pattern: '(.*)'`` and ``_replacement: '\1'``.
 So adding only a prefix does not require ``_pattern`` to be defined
 and ``_replacement: 'prefix_\1'`` suffices. Please read the documentation
 of |re_sub| for more information.
