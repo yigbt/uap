@@ -887,6 +887,7 @@ class AbstractStep(object):
                     try:
                         state = run.get_state(do_hash=do_hash)
                     except Exception:
+                        run.fsc.clear()
                         retries -= 1
                         continue
                     break
