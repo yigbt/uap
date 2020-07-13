@@ -221,8 +221,10 @@ def main(args):
                                 'command': list2cmdline(proc['args']),
                                 'exit code': proc['exit_code']
                             }
-                            stderr[proc['name']] = proc['stderr_copy']['tail'].decode(
-                                'utf-8')
+                            stderr[proc['name']] = proc['stderr_copy']['tail']
+                            if isinstance(stderr[proc['name']], bytes):
+                                stderr[proc['name']] = stderr[proc['name']]\
+                                    .decode('utf-8')
                     except KeyError as e:
                         print('The annotation file "%s" seems badly '
                               'formated: %s\n' % (anno_file, e))
