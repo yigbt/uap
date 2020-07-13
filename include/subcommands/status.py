@@ -275,7 +275,7 @@ def main(args):
                 (args.config.name, args.config.name))
             print(
                 "If you want to ignore the changes and consider the tasks finished, run\n"
-                "'uap %s run-locally --irgnore' or 'uap %s submit-to-cluster --irgnore'." %
+                "'uap %s run-locally --ignore' or 'uap %s submit-to-cluster --ignore'." %
                 (args.config.name, args.config.name))
 
         # now check ping files and print some warnings and instructions if
