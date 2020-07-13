@@ -879,9 +879,17 @@ class AbstractStep(object):
                         disable=not progress, leave=False)
         try:
             for run in run_iter:
-                if isinstance(run, str):
-                    run = self.get_run(run)
-                state = run.get_state(do_hash=do_hash)
+                retries = 5
+                state = self.get_pipeline().states.UNDETERMINABLE
+                while retries > 0:
+                    try:
+                        if isinstance(run, str):
+                            run = self.get_run(run)
+                        state = run.get_state(do_hash=do_hash)
+                    except Exception:
+                        retries -= 1
+                        continue
+                    break
                 if state not in count:
                     count[state] = 0
                 count[state] += 1
