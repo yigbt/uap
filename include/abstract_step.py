@@ -51,6 +51,8 @@ class AbstractStep(object):
         '_volatile',
         '_BREAK',
         '_connect',
+        '_pattern',
+        '_replacement',
         '_cluster_submit_options',
         '_cluster_pre_job_command',
         '_cluster_post_job_command',
@@ -136,6 +138,7 @@ class AbstractStep(object):
             with self.declare_run(run_id) as run:
                 # add output files and information to the run here
         '''
+        run_id = re.sub(self._options['_pattern'], self._options['_replacement'], run_id)
         # Replace whitespaces by underscores
         run_id = re.sub(r'\s', '_', run_id)
         if run_id in self._runs:
@@ -219,6 +222,8 @@ class AbstractStep(object):
                   '_cluster_post_job_command']:
             self._options.setdefault(i, '')
         self._options.setdefault('_cluster_job_quota', 0)
+        self._options.setdefault('_pattern', '(.*)')
+        self._options.setdefault('_replacement', r'\1')
 
         self._options.setdefault('_connect', dict())
         self._options.setdefault('_depends', list())
@@ -876,7 +881,16 @@ class AbstractStep(object):
             for run in run_iter:
                 if isinstance(run, str):
                     run = self.get_run(run)
-                state = run.get_state(do_hash=do_hash)
+                retries = 5
+                state = self.get_pipeline().states.UNDETERMINABLE
+                while retries > 0:
+                    try:
+                        state = run.get_state(do_hash=do_hash)
+                    except Exception:
+                        run.fsc.clear()
+                        retries -= 1
+                        continue
+                    break
                 if state not in count:
                     count[state] = 0
                 count[state] += 1

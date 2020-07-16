@@ -221,8 +221,10 @@ def main(args):
                                 'command': list2cmdline(proc['args']),
                                 'exit code': proc['exit_code']
                             }
-                            stderr[proc['name']] = proc['stderr_copy']['tail'].decode(
-                                'utf-8')
+                            stderr[proc['name']] = proc['stderr_copy']['tail']
+                            if isinstance(stderr[proc['name']], bytes):
+                                stderr[proc['name']] = stderr[proc['name']]\
+                                    .decode('utf-8')
                     except KeyError as e:
                         print('The annotation file "%s" seems badly '
                               'formated: %s\n' % (anno_file, e))
@@ -273,7 +275,7 @@ def main(args):
                 (args.config.name, args.config.name))
             print(
                 "If you want to ignore the changes and consider the tasks finished, run\n"
-                "'uap %s run-locally --irgnore' or 'uap %s submit-to-cluster --irgnore'." %
+                "'uap %s run-locally --ignore' or 'uap %s submit-to-cluster --ignore'." %
                 (args.config.name, args.config.name))
 
         # now check ping files and print some warnings and instructions if
