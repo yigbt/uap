@@ -45,14 +45,33 @@ Please note, the version [v2.0.0rc2](https://github.com/fraunhofer-izi/uap/relea
 
 ## Contacts
 
-Christoph Kämpf [christoph.kaempf@izi.fraunhofer.de](mailto:christoph.kaempf@izi.fraunhofer.de)
+* Christoph Kämpf, [christoph.kaempf@izi.fraunhofer.de](mailto:christoph.kaempf@izi.fraunhofer.de)
+* Kristin Reiche, [kristin.reiche@izi.fraunhofer.de](mailto:kristin.reiche@izi.fraunhofer.de)
+* Jana Schor, [jana.schor@ufz.de](mailto:jana.schor@ufz.de)
+* Jörg Hackermüller, [joerg.hackermueller@ufz.de](mailto:joerg.hackermueller@ufz.de)
+
+Helmholtz Centre for Environmental Research - UFZ</br>
+Permoserstr. 15, 04318 Leipzig, Germany
+
+Fraunhofer Institute for Cell Therapy and Immunology (IZI)</br>
+Perlickstraße 1, 04103 Leipzig, Germany
+
+## Main contributors:
+
+* Christoph Kämpf
+* Dominik Otto
+* Michael Specht
+* Alexander Scholz
+* Sven-Holger Puppel
+* Gero Doose
+* Kristin Reiche
+* Jana Schor
+* Jörg Hackermüller
 
 ## License
 
-Copyright (C) 2019 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e.V. acting on behalf of its Fraunhofer Institute for Cell Therapy and Immunology (IZI).
+Copyright (C) 2011 - 2020 Helmholtz Centre for Environmental Research - UFZ and Fraunhofer Gesellschaft zur Foerderung der angewandten Forschung e.V. acting on behalf of its Fraunhofer Institute for Cell Therapy and Immunology (IZI).
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [UFZ-IZI](https://github.com/yigbt/uap/blob/master/UFZ-IZI-LICENSE) License document for more details.
