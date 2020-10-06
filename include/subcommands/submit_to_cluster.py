@@ -165,6 +165,7 @@ def main(args):
             submit_script = submit_script.replace(placeholder, value)
 
         task_names = [str(task) for task in tasks_left[step_name]]
+        print( "\n".join( task_names))
         submit_script = submit_script.replace(
             "#{ARRAY_JOBS}", " ".join(
                 "'" + task + "'" for task in task_names))
