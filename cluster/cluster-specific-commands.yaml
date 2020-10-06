@@ -23,6 +23,7 @@ uge:
     submit: 'qsub'
     stat: 'qstat'
     template: 'cluster/submit-scripts/qsub-template.sh'
+    default_options: ''
     hold_jid: '-hold_jid'
     hold_jid_separator: ';'
     set_job_name: '-N'
