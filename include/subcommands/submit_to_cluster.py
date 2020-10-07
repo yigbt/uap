@@ -174,7 +174,7 @@ def main(args):
             "#{UAP_CONFIG}", yaml.dump(p.config))
 
 #        command = ['exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
-        command = ['singularity', 'run', '/global/apps/uap/uap_v1.0_writeable.sif') ]
+        command = ['singularity', 'run', '/global/apps/uap/uap_v1.0_writeable.sif' ]
         if p.args.debugging:
             command.append('--debugging')
 #        command.extend(['<(cat <&123', 'run-locally'])
