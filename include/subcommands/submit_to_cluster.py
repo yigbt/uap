@@ -173,15 +173,17 @@ def main(args):
         submit_script = submit_script.replace(
             "#{UAP_CONFIG}", yaml.dump(p.config))
 
-        command = ['exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
+#        command = ['exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
+        command = ['singularity', 'run', '/global/apps/uap/uap_v1.0_writeable.sif') ]
         if p.args.debugging:
             command.append('--debugging')
-        command.extend(['<(cat <&123)', 'run-locally'])
+#        command.extend(['<(cat <&123', 'run-locally'])
+        command.extend(['/home/canzler/git-canzler/code/singularitycontainers/uap/RNAseq2countData.config.yaml', 'run-locally'])
         if p.args.force:
             command.append('--force')
 
         task_id = p.get_cluster_command('array_task_id')
-        command.append('"${array_jobs[$' + task_id + ']}"')
+        command.append('"${array_jobs[$((' + task_id + '-1))]}"')
 
         submit_script = submit_script.replace("#{COMMAND}", ' '.join(command))
 
@@ -200,7 +202,8 @@ def main(args):
         if aoi and aoi != '':
             long_task_id_with_date = '_'.join([step_name, aoi, now])
         else:
-            long_task_id_with_date = '_'.join([step_name, now])
+#            long_task_id_with_date = '_'.join([step_name, now])
+            long_task_id_with_date = '_'.join([step_name, now, "$TASK_ID"])
 
         submit_script_args = [p.get_cluster_command('submit')]
         size = len(tasks)
@@ -220,8 +223,9 @@ def main(args):
                                 '.' + long_task_id_with_date + '.uapout')
         submit_script_args.append(p.get_cluster_command('set_stderr'))
         submit_script_args.append(out_file)
-        submit_script_args.append(p.get_cluster_command('set_stdout'))
-        submit_script_args.append(out_file)
+        submit_script_args.extend(['-j', 'y'])
+#        submit_script_args.append(p.get_cluster_command('set_stdout'))
+#        submit_script_args.append(out_file)
 
         if len(dependent_steps) > 0:
             submit_script_args += p.get_cluster_command_cli_option(
