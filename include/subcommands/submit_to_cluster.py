@@ -202,14 +202,15 @@ def main(args):
             long_task_id_with_date = '_'.join([step_name, now])
 
         submit_script_args = [p.get_cluster_command('submit')]
-        size = len(tasks)
+        start_index = int(p.get_cluster_command('array_start_index', 0))
+        size = len(tasks) - 1 + start_index
         if quotas[step_name] == 0:
             submit_script_args += p.get_cluster_command_cli_option(
-                'array_job', str(size - 1))
+                'array_job', str(size))
         else:
             submit_script_args += p.get_cluster_command_cli_option(
                 'array_job_wquota',
-                (str(size - 1), str(quotas[step_name])))
+                (str(size), str(quotas[step_name])))
         submit_script_args += p.get_cluster_command_cli_option(
             'set_job_name', step_name)
 
