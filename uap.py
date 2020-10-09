@@ -503,6 +503,10 @@ def main():
     # create logger object
     logger = _configure_logger(args.verbose)
 
+    # tracback output in case of verbosity
+    if args.verbose > 1:
+        args.debugging = True
+
     # call subcommand
     try:
         if args.profiling is True:

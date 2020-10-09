@@ -28,26 +28,26 @@ class FastxReverseComplement(AbstractStep):
         self.add_option('prefix', str, default=None, optional=True,
                         description="Add Prefix to sample name (deprecated).")
 
-        self.add_option('name_sheme', str, optional=True,
+        self.add_option('name_scheme', str, optional=True,
                         default='%s_revcom',
-                        description=r"Naming sheme for the output files "
+                        description=r"Naming scheme for the output files "
                         r"without '.fastq.gz' extension and where ``%s`` "
                         r"is replaced with the run id.")
 
     def runs(self, run_ids_connections_files):
-        run_id_sheme = self.get_option('name_sheme')
+        run_id_scheme = self.get_option('name_scheme')
         prefix = self.get_option('prefix')
         if prefix:
-            run_id_sheme = '%s_%%s_R1' % prefix
+            run_id_scheme = '%s_%%s_R1' % prefix
             logger.warning("[%s] The 'prefix' option is deprecaded in favor "
-                           "of the 'name_sheme' option. The set pefix '%s' is "
-                           "converted to 'name_sheme: %s'" %
-                           (self, prefix, run_id_sheme))
+                           "of the 'name_scheme' option. The set pefix '%s' is "
+                           "converted to 'name_scheme: %s'" %
+                           (self, prefix, run_id_scheme))
         try:
-            _ = run_id_sheme % ''
+            _ = run_id_scheme % ''
         except TypeError as e:
-            raise StepError(self, 'Could not parse name_sheme "%s": %s' %
-                            (run_id_sheme, e))
+            raise StepError(self, 'Could not parse name_scheme "%s": %s' %
+                            (run_id_scheme, e))
         for run_id in run_ids_connections_files.keys():
             with self.declare_run(run_id) as run:
                 input_paths = run_ids_connections_files[run_id]['in/fastx']
@@ -62,7 +62,7 @@ class FastxReverseComplement(AbstractStep):
 
                 out = run.add_output_file(
                     "fastx",
-                    run_id_sheme % run_id + '.fastq.gz',
+                    run_id_scheme % run_id + '.fastq.gz',
                     input_paths)
 
                 with run.new_exec_group() as exec_group:

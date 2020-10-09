@@ -211,7 +211,7 @@ class Pipeline(object):
     '''
 
     states = misc.Enum(['WAITING', 'READY', 'QUEUED', 'EXECUTING', 'FINISHED',
-                        'BAD', 'CHANGED', 'VOLATILIZED'])
+                        'BAD', 'CHANGED', 'VOLATILIZED', 'UNDETERMINABLE'])
     '''
     Possible states a task can be in.
     '''
@@ -583,7 +583,7 @@ class Pipeline(object):
         if self.get_cluster_type() is not None:
             self.config['cluster'].setdefault(
                 'default_submit_options',
-                self.get_cluster_command('default_options'))
+                self.get_cluster_command('default_options', ''))
         for i in ['default_submit_options', 'default_pre_job_command',
                   'default_post_job_command']:
             self.config['cluster'].setdefault(i, '')
@@ -1077,12 +1077,14 @@ class Pipeline(object):
     (cc == cluster command).
     '''
 
-    def get_cluster_command(self, key):
+    def get_cluster_command(self, key, default=None):
         ct = self.get_cluster_type()
         if key not in self.get_cluster_config()[ct].keys():
-            raise UAPError(
-                'The option "%s" is not available for the cluster "%s".' %
-                (key, ct))
+            if default is None:
+                raise UAPError(
+                    'The option "%s" is not available for the cluster "%s".' %
+                    (key, ct))
+            return default
         return self.get_cluster_config()[ct][key]
 
     '''

@@ -2480,7 +2480,8 @@ fastq_screen
 
     FastQ Screen allows you to screen a library of sequences in FastQ format
     against a set of sequence databases so you can see if the composition of
-    the library matches with what you expect.
+    the library matches with what you expect. This step uses Bowtie2 as the
+    alignment tool.
 
 
 **Input Connection**
