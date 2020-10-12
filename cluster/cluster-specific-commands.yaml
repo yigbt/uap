@@ -8,6 +8,7 @@ slurm:
     default_options: '--cpus-per-task=#{CORES}'
     hold_jid: '--dependency=afterany:%s'
     hold_jid_separator: ':'
+    array_start_index: 0
     array_job: '--array=0-%s'
     array_job_wquota: '--array=0-%s%%%s'
     array_out_index: '%A_%a'
@@ -24,27 +25,13 @@ qstat:
     stat: 'qstat'
     last_error: ''
     template: 'cluster/submit-scripts/qsub-template.sh'
-    default_options: ''
     hold_jid: '-hold_jid'
     hold_jid_separator: ';'
+    array_start_index: 1
     array_job: ['-t', '1-%s']
     array_job_wquota: ['-t', '1-%s', '-tc', '%s']
-    array_out_index: ''
+    array_out_index: '$TASK_ID'
     array_task_id: 'SGE_TASK_ID'
-    set_job_name: '-N'
-    set_stderr: '-e'
-    set_stdout: '-o'
-    parse_job_id: 'Your job (\d+)'
-
-uge:
-    identity_test: ['qstat', '-help']
-    identity_answer: 'UGE'
-    submit: 'qsub'
-    stat: 'qstat'
-    template: 'cluster/submit-scripts/qsub-template.sh'
-    default_options: ''
-    hold_jid: '-hold_jid'
-    hold_jid_separator: ';'
     set_job_name: '-N'
     set_stderr: '-e'
     set_stdout: '-o'
