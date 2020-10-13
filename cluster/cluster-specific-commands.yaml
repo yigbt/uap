@@ -31,7 +31,7 @@ qstat:
     array_job: ['-t', '1-%s']
     array_job_wquota: ['-t', '1-%s', '-tc', '%s']
     array_out_index: '\$TASK_ID'
-    array_task_id: 'SGE_TASK_ID'
+    array_task_id: '((SGE_TASK_ID-1))'
     set_job_name: '-N'
     set_stderr: '-e'
     set_stdout: '-o'
