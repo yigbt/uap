@@ -114,6 +114,10 @@ singularity run /global/apps/uap/uap_branch_fraunhofer_uge_support.sif workflow_
   the whole container (which needs to be executable) instead of the
   local version of uap
   
+* The actual PRE_JOB_COMMAND is definde in the workflow yaml file
+  which should make it quite easy to define the workaround without
+  interfering with the uap code itself.
+ 
 * Create a separate option for cluster specifications in the
   cluster-specific-commands.yaml file such that specific singularity
   settings, like \$TASK_ID, are kept separate from 'normal' uge
