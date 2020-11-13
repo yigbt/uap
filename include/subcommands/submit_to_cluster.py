@@ -177,7 +177,7 @@ def main(args):
         command = ['singularity', 'run', '/global/apps/uap/uap_branch_fraunhofer_uge_support.sif' ]
         if p.args.debugging:
             command.append('--debugging')
-        command.extend(['-vv' '<(cat <&123)', 'run-locally'])
+        command.extend(['-vv', '<(cat <&123)', 'run-locally'])
 #        command.extend(['/home/canzler/git-canzler/code/singularitycontainers/uap/RNAseq2countData.config.yaml', 'run-locally'])
         if p.args.force:
             command.append('--force')
