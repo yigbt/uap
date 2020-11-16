@@ -35,4 +35,4 @@ qstat:
     set_job_name: '-N'
     set_stderr: '-e'
     set_stdout: '-o'
-    parse_job_id: 'Your job (\d+)'
+    parse_job_id: 'Your job-array (\d+)'
