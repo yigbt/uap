@@ -92,6 +92,7 @@ dependencies:
   - libxcb=1.13=h14c3975_1002
   - libxml2=2.9.10=hee79883_0
   - lz4-c=1.9.2=he1b5a44_3
+  - macs2=2.2.7.1
   - matplotlib-base=3.3.3=py36he12231b_0
   - mysql-connector-c=6.1.11=h6eb9d5d_1007
   - ncurses=6.1=hf484d3e_1002
