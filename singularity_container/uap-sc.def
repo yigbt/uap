@@ -106,9 +106,9 @@ EOF
     The following tools are currently supplied in this singularity container:
     cufflinks                 2.2.1
     cutadapt                  2.10
-    fastqc                    0.11.9
+    fastqc                    0.11.4
     fastx_toolkit             0.0.14
-    hisat2                    2.2.0
+    hisat2                    2.2.1
     htseq                     0.12.4
     samtools                  1.9
     stringtie                 2.1.2
