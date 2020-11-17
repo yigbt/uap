@@ -1,5 +1,6 @@
 name: uap_python3_v1.0
 channels:
+  - biobuilds
   - bioinfo
   - bioconda
   - conda-forge
@@ -10,15 +11,15 @@ dependencies:
   - adapterremoval=2.3.1=hb7ba0dd_1
   - alsa-lib=1.2.3=h516909a_0
   - appdirs=1.4.4=pyh9f0ad1d_0
-  - atk=2.36.0=3
-  - atk-1.0=2.36.0=h63f31ab_3
+  - atk=2.36.0=ha770c72_4
+  - atk-1.0=2.36.0=h0d5b62e_4
   - bowtie2=2.4.2=py36h5202f60_1
   - bwa=0.7.17=hed695b0_7
   - bzip2=1.0.8=h516909a_3
   - c-ares=1.16.1=h516909a_3
   - ca-certificates=2020.11.8=ha878542_0
   - cairo=1.16.0=hcf35c78_1003
-  - certifi=2020.6.20=py36h9880bd3_2
+  - certifi=2020.11.8=py36h5fab9bb_0
   - chrpath=0.16=h14c3975_1001
   - cufflinks=2.2.1=py36_2
   - curl=7.71.1=he644dc0_8
@@ -28,10 +29,9 @@ dependencies:
   - distlib=0.3.1=pyh9f0ad1d_0
   - dnaio=0.4.4=py36h4c5857e_0
   - expat=2.2.9=he1b5a44_2
-  - fastqc=0.11.9=0
+  - fastqc=0.11.4=0
   - fastx_toolkit=0.0.14=he1b5a44_8
   - filelock=3.0.12=pyh9f0ad1d_0
-  - font-ttf-dejavu-sans-mono=2.37=hab24e00_0
   - fontconfig=2.13.1=h86ecdb6_1001
   - freetype=2.10.4=h7ca028e_0
   - fribidi=1.0.10=h36c2ea0_0
@@ -40,7 +40,7 @@ dependencies:
   - giflib=5.2.1=h36c2ea0_2
   - glib=2.66.2=h58526e2_0
   - gnuplot=5.2.7=he39d25e_2
-  - gobject-introspection=1.66.1=py36hb21025a_2
+  - gobject-introspection=1.66.1=py36hc23f7e7_3
   - graphite2=1.3.13=h58526e2_1001
   - graphviz=2.42.3=h0511662_0
   - gsl=2.6=hf94e986_0
@@ -49,20 +49,21 @@ dependencies:
   - gtk2=2.24.32=h586f36d_1
   - harfbuzz=2.4.0=h9f30f68_3
   - hdf5=1.10.5=nompi_h1022a3e_1110
-  - hisat2=2.2.0=py36hf0b53f7_4
+  - hisat2=2.2.1=he1b5a44_2
   - htseq=0.12.4=py36h0234e80_2
   - htslib=1.9=h4da6232_3
   - icu=64.2=he1b5a44_1
   - importlib-metadata=1.7.0=py36h9f0ad1d_0
   - importlib_metadata=1.7.0=0
   - importlib_resources=1.5.0=py36h9f0ad1d_0
+  - isa-l=2.30.0=h36c2ea0_0
   - jemalloc=5.2.1=he1b5a44_4
   - jpeg=9d=h36c2ea0_0
   - kallisto=0.46.2=h4f7b962_1
   - kiwisolver=1.3.1=py36h51d7077_0
   - krb5=1.17.1=hfafb76e_3
   - lcms2=2.11=hcbb858e_1
-  - ld_impl_linux-64=2.35=h769bd43_9
+  - ld_impl_linux-64=2.35.1=hed1e6ac_0
   - libblas=3.9.0=2_openblas
   - libcblas=3.9.0=2_openblas
   - libcurl=7.71.1=hcdd3856_8
@@ -85,13 +86,13 @@ dependencies:
   - libssh2=1.9.0=hab1572f_5
   - libstdcxx-ng=9.3.0=h2ae2ef3_17
   - libtiff=4.1.0=hc3755c2_3
-  - libtool=2.4.6=h58526e2_1006
+  - libtool=2.4.6=h58526e2_1007
   - libuuid=2.32.1=h14c3975_1000
   - libwebp=1.0.2=h56121f0_5
   - libxcb=1.13=h14c3975_1002
   - libxml2=2.9.10=hee79883_0
   - lz4-c=1.9.2=he1b5a44_3
-  - matplotlib-base=3.3.2=py36he12231b_1
+  - matplotlib-base=3.3.3=py36he12231b_0
   - mysql-connector-c=6.1.11=h6eb9d5d_1007
   - ncurses=6.1=hf484d3e_1002
   - numpy=1.19.4=py36h8732dcd_1
@@ -135,7 +136,7 @@ dependencies:
   - ucsc-fetchchromsizes=377=h446ed27_1
   - virtualenv=20.0.20=py36h9f0ad1d_1
   - wheel=0.35.1=pyh9f0ad1d_0
-  - xopen=1.0.0=py36h5fab9bb_0
+  - xopen=1.0.1=py36h5fab9bb_1
   - xorg-fixesproto=5.0=h14c3975_1002
   - xorg-inputproto=2.3.2=h14c3975_1002
   - xorg-kbproto=1.0.7=h14c3975_1002
