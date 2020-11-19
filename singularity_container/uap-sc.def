@@ -5,6 +5,7 @@ Stage: build
 %setup
 
 %files
+	environment.yml
 
 %post
 
@@ -39,13 +40,7 @@ Stage: build
 
     # COMMENT ich wuerde die packages immer auf einmal installieren 
     # also in einem conda install befehl oder gleich beim conda create
-    conda create --yes --name uap_python3_v1.0 -c conda-forge -c bioconda -c r -c anaconda \
-	python cufflinks=2.2.1 fastqc=0.11.9 fastx_toolkit=0.0.14 hisat2=2.2.0 htseq=0.12.4 \
-	pigz=2.3.4 samtools=1.9 stringtie=2.1.2 cutadapt=2.10 virtualenv=20.0.20 graphviz=2.42.3 \
-	adapterremoval=2.3.1 salmon=1.3.0 bwa=0.7.17 bowtie2=2.4.2 ucsc-fetchchromsizes=377 \
-	segemehl=0.3.4 preseq=2.0.3 picard=2.18.7 kallisto=0.46.2 star=2.7.6a
-	   
-    conda env export --name uap_python3_v1.0 > uap_python3_v1.0.conda_env.yaml
+    bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yml"
 
     # activate the conda environment
     conda activate uap_python3_v1.0
@@ -109,21 +104,22 @@ EOF
     Version 1.0
 
     The following tools are currently supplied in this singularity container:
+    adapterremoval            2.3.1
+    bowtie2                   2.4.2
+    bwa                       0.7.17
     cufflinks                 2.2.1
     cutadapt                  2.10
-    fastqc                    0.11.9
+    fastqc                    0.11.4
     fastx_toolkit             0.0.14
-    hisat2                    2.2.0
+    hisat2                    2.2.1
     htseq                     0.12.4
+    kallisto                  0.46.2
+    macs2		      2.2.7.1
     samtools                  1.9
-    stringtie                 2.1.2
-    adapterremoval            2.3.1
-    salmon                    1.3.0
-    bwa                       0.7.17
-    bowtie2                   2.4.2
-    ucsc-fetchchromsizes      377
-    segemehl                  0.3.4
     preseq                    2.0.3
     picard                    2.18.7
-    kallisto                  0.46.2
+    salmon                    1.3.0
+    segemehl                  0.3.4
     star                      2.7.6a
+    stringtie                 2.1.2
+    ucsc-fetchchromsizes      377
