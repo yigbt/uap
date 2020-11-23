@@ -19,8 +19,8 @@ slurm:
     parse_job_id: 'Submitted batch job (\d+)'
 
 singularity_qstat:
-    identity_test: ['singularity']
-    identity_answer: ['singularity']
+    identity_test: ['qstat', '-help']
+    identity_answer: ['Wrapper for UGE']
     submit: 'qsub'
     stat: 'qstat'
     last_error: ''
