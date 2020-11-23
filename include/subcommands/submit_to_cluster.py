@@ -175,6 +175,7 @@ def main(args):
 
 #        command = ['exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
         command = ['singularity', 'run', '/global/apps/uap/uap_branch_fraunhofer_uge_support.sif' ]
+        print('\nuap_path:\n', os.path.join(p.get_uap_path(), 'uap'),'\n\n')
         if p.args.debugging:
             command.append('--debugging')
         command.extend(['-vv', '<(cat <&123)', 'run-locally'])
