@@ -18,6 +18,25 @@ slurm:
     set_stdout: '-o'
     parse_job_id: 'Submitted batch job (\d+)'
 
+singularity_qstat:
+    identity_test: ['singularity']
+    identity_answer: ['singularity']
+    submit: 'qsub'
+    stat: 'qstat'
+    last_error: ''
+    template: 'cluster/submit-scripts/qsub-template.sh'
+    hold_jid: '-hold_jid'
+    hold_jid_separator: ';'
+    array_start_index: 1
+    array_job: ['-t', '1-%s']
+    array_job_wquota: ['-t', '1-%s', '-tc', '%s']
+    array_out_index: '\$TASK_ID'
+    array_task_id: '((SGE_TASK_ID-1))'
+    set_job_name: '-N'
+    set_stderr: '-e'
+    set_stdout: '-o'
+    parse_job_id: 'Your job-array (\d+)'
+
 qstat:
     identity_test: ['qstat', '-help']
     identity_answer: ['SGE', 'UGE', 'OGS']
@@ -30,7 +49,7 @@ qstat:
     array_start_index: 1
     array_job: ['-t', '1-%s']
     array_job_wquota: ['-t', '1-%s', '-tc', '%s']
-    array_out_index: '\$TASK_ID'
+    array_out_index: '$TASK_ID'
     array_task_id: '((SGE_TASK_ID-1))'
     set_job_name: '-N'
     set_stderr: '-e'

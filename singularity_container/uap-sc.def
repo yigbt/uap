@@ -60,6 +60,13 @@ EOF
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qsub
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qstat
 
+   # create a file to use for cluster detection tests
+   cat > /usr/bin/singularity.sh << EOF
+#!/bin/bash
+echo "singularity uge"
+EOF
+   chmod ugo+x /usr/bin/singularity.sh
+   
 %environment
 
     export PATH=$PATH:/usr/local/miniconda3/bin
