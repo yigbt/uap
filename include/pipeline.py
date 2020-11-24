@@ -405,6 +405,7 @@ class Pipeline(object):
             'destination_path',
             'constants',
             'cluster',
+            'container',
             'steps',
             'lmod',
             'tools',
