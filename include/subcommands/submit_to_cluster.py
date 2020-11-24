@@ -173,18 +173,27 @@ def main(args):
         submit_script = submit_script.replace(
             "#{UAP_CONFIG}", yaml.dump(p.config))
 
-        if( p.get_cluster_type() == "singularity_qstat"):
-            command = p.get_cluster_command( 'run_command')
-            command.append( p.config['container']['container_file'])
+
+        if step._options['_singularity_container']:
+            singularity_container = step._options['_singularity_container']
         else:
-            command = ['exec', os.path.join(p.get_uap_path(), 'uap')]
+            singularity_container = p.config['cluster']['singularity_container']
+        if step._options['_singularity_options']:
+            singularity_options = step._options['_singularity_options']
+        else:
+            singularity_options = p.config['cluster']['singularity_options']
+        
+        if( singularity_container):
+            command = [ 'singularity', 'run', singularity_container, singularity_options, '-vv' ]
+        else:
+            command = [ 'exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
 
         print( "\n", p.get_cluster_type(), "\n")
         print( command, "\n")
         
         if p.args.debugging:
             command.append('--debugging')
-        command.extend(['-vv', '<(cat <&123)', 'run-locally'])
+        command.extend(['<(cat <&123)', 'run-locally'])
         if p.args.force:
             command.append('--force')
 

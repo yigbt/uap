@@ -405,7 +405,6 @@ class Pipeline(object):
             'destination_path',
             'constants',
             'cluster',
-            'container',
             'steps',
             'lmod',
             'tools',
@@ -586,7 +585,7 @@ class Pipeline(object):
                 'default_submit_options',
                 self.get_cluster_command('default_options', ''))
         for i in ['default_submit_options', 'default_pre_job_command',
-                  'default_post_job_command']:
+                  'default_post_job_command', 'singularity_container', 'singularity_options']:
             self.config['cluster'].setdefault(i, '')
         self.config['cluster'].setdefault('default_job_quota', 0)  # no quota
 

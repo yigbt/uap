@@ -25,7 +25,6 @@ singularity_qstat:
     stat: 'qstat'
     last_error: ''
     template: 'cluster/submit-scripts/qsub-template.sh'
-    run_command: ['singularity', 'run']
     hold_jid: '-hold_jid'
     hold_jid_separator: ';'
     array_start_index: 1
