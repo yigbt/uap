@@ -56,7 +56,9 @@ class AbstractStep(object):
         '_cluster_submit_options',
         '_cluster_pre_job_command',
         '_cluster_post_job_command',
-        '_cluster_job_quota']
+        '_cluster_job_quota',
+        '_singularity_container',
+        '_singularity_options']
 
     states = misc.Enum(['DEFAULT', 'EXECUTING'])
 
@@ -219,7 +221,8 @@ class AbstractStep(object):
         self._options.setdefault('_volatile', False)
 
         for i in ['_cluster_submit_options', '_cluster_pre_job_command',
-                  '_cluster_post_job_command']:
+                  '_cluster_post_job_command', '_singularity_container',
+                  '_singularity_options']:
             self._options.setdefault(i, '')
         self._options.setdefault('_cluster_job_quota', 0)
         self._options.setdefault('_pattern', '(.*)')
