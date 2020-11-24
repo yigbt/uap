@@ -20,11 +20,12 @@ slurm:
 
 singularity_qstat:
     identity_test: ['qstat', '-help']
-    identity_answer: ['Wrapper for UGE']
+    identity_answer: 'Wrapper for UGE'
     submit: 'qsub'
     stat: 'qstat'
     last_error: ''
     template: 'cluster/submit-scripts/qsub-template.sh'
+    run_command: ['singularity', 'run']
     hold_jid: '-hold_jid'
     hold_jid_separator: ';'
     array_start_index: 1

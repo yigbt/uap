@@ -173,14 +173,18 @@ def main(args):
         submit_script = submit_script.replace(
             "#{UAP_CONFIG}", yaml.dump(p.config))
 
-#        command = ['exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
-        command = ['singularity', 'run', '/global/apps/uap/uap_branch_fraunhofer_uge_support.sif' ]
-        print('\nuap_path:\n', os.path.join(p.get_uap_path(), 'uap'),'\n')
-        print( p.get_cluster_type(), "\n\n")
+        if( p.get_cluster_type() == "singularity_qstat"):
+            command = p.get_cluster_command( 'run_command')
+            command.append( p.config['container']['container_file'])
+        elif:
+            command = ['exec', os.path.join(p.get_uap_path(), 'uap')]
+
+        print( "\n", p.get_cluster_type(), "\n")
+        print( command, "\n")
+        
         if p.args.debugging:
             command.append('--debugging')
         command.extend(['-vv', '<(cat <&123)', 'run-locally'])
-#        command.extend(['/home/canzler/git-canzler/code/singularitycontainers/uap/RNAseq2countData.config.yaml', 'run-locally'])
         if p.args.force:
             command.append('--force')
 
