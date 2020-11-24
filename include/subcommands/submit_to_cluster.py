@@ -165,7 +165,7 @@ def main(args):
             submit_script = submit_script.replace(placeholder, value)
 
         task_names = [str(task) for task in tasks_left[step_name]]
-        print( "\n".join( task_names))
+
         submit_script = submit_script.replace(
             "#{ARRAY_JOBS}", " ".join(
                 "'" + task + "'" for task in task_names))
@@ -174,6 +174,7 @@ def main(args):
             "#{UAP_CONFIG}", yaml.dump(p.config))
 
 
+        # Retrieve container file and options if uap is run within a singularity container
         if step._options['_singularity_container']:
             singularity_container = step._options['_singularity_container']
         else:
@@ -188,9 +189,6 @@ def main(args):
         else:
             command = [ 'exec', os.path.join(p.get_uap_path(), 'uap'), '-vv']
 
-        print( "\n", p.get_cluster_type(), "\n")
-        print( command, "\n")
-        
         if p.args.debugging:
             command.append('--debugging')
         command.extend(['<(cat <&123)', 'run-locally'])
@@ -261,8 +259,6 @@ def main(args):
         with open(submit_script_path, 'wt', encoding='utf-8') as f:
             f.write(submit_script)
         submit_script_args.append(submit_script_path)
-
-        print( "\n\n\n", " ".join( submit_script_args), "\n\n")
 
         process = None
         try:
