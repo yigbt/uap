@@ -176,7 +176,7 @@ def main(args):
         if( p.get_cluster_type() == "singularity_qstat"):
             command = p.get_cluster_command( 'run_command')
             command.append( p.config['container']['container_file'])
-        elif:
+        else:
             command = ['exec', os.path.join(p.get_uap_path(), 'uap')]
 
         print( "\n", p.get_cluster_type(), "\n")
