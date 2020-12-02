@@ -24,7 +24,7 @@ Stage: build
     apt-get install --yes gcc
     apt-get install --yes nano
     apt-get install --yes locales
-    apt-get install --yes zlib
+    apt-get install --yes zlibc
     apt-get install --yes librt
     apt-get install --yes libpthread
     apt-get install --yes unzip
