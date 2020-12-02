@@ -6,7 +6,7 @@ Stage: build
 
 %files
 	environment.yml
-	bcl2fastq2-v2.20.0.422-Source.tar.gz
+	#bcl2fastq2-v2.20.0.422-Source.tar.gz
 	
 
 %post
@@ -52,15 +52,15 @@ Stage: build
 
     
     # install bcl2fastq
-    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
-    cd tmp/
-    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
-    cd bcl2fastq/
-    mkdir -p bcl2fastq-build
-    cd bcl2fastq-build/
-    ../src/configure --prefix=/opt/bcl2fastq
-    make
-    make install
+    #cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
+    #cd tmp/
+    #tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
+    #cd bcl2fastq/
+    #mkdir -p bcl2fastq-build
+    #cd bcl2fastq-build/
+    #../src/configure --prefix=/opt/bcl2fastq
+    #make
+    #make install
 
     # Miniconda3 .. uses python3.7!
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
