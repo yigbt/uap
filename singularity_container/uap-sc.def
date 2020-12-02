@@ -24,11 +24,28 @@ Stage: build
     apt-get install --yes gcc
     apt-get install --yes nano
     apt-get install --yes locales
+    apt-get install --yes zlib
+    apt-get install --yes librt
+    apt-get install --yes libpthread
+    apt-get install --yes unzip
 
     # Configure default locale
     locale-gen de_DE.UTF-8
     locale-gen en_US.UTF-8
     update-locale LANG=de_DE.UTF-8
+
+    # install bcl2fastq
+    mkdir tmp/
+    cd tmp/
+    wget https://files.softwaredownloads.illumina.com/82660c4c-f46c-4743-8566-2437755e4329/bcl2fastq2-v2-20-0-tar.zip?Expires=1606902939&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9maWxlcy5zb2Z0d2FyZWRvd25sb2Fkcy5pbGx1bWluYS5jb20vODI2NjBjNGMtZjQ2Yy00NzQzLTg1NjYtMjQzNzc1NWU0MzI5L2JjbDJmYXN0cTItdjItMjAtMC10YXIuemlwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjA2OTAyOTM5fX19XX0_&Signature=nGyULyL7b42LWv-GzdZlHTuARK8su5FEK9UreiSv~R2S20G1eLt5exmXPNMZJJ0UcPDGQ4MbvEIx7fNZXBqWHppAbE-h1cmydCqCS600TMuWYZXQ-PEupQHRbbDkgt3PcpAF0IJw7-q2aehqKJ-hFRptmw-m4TTv7TBPyo9aCp17PYtK2cyuh8iNZu0KmMYvq4ZkhDtNcYHgkd4hlf0v9of8P881d7jpK2crtE-qYGzeiBYS0xlWpv7NgxFIJzgMRBhg8J6i-frHM7McXkHsmFzW1VnayYRWvN04Cx6qEeexKoiIdzraw4RteT757OxmG91VNT3L2zBAiMoYPdIjAg__&Key-Pair-Id=APKAJO3UYWPXK4A26FPQ 2>/dev/null
+    unzip bcl2fastq2-v2-20-0-tar.zip
+    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
+    cd bcl2fastq/
+    mkdir bcl2fastq-build
+    cd bcl2fastq-build/
+    ../src/configure --prefix=/opt/bcl2fastq
+    make
+    make install
 
     # Miniconda3 .. uses python3.7!
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -46,7 +63,7 @@ Stage: build
     conda activate uap_python3_v1.0
 
     # Das repo von uap für Python3 clonen
-    git clone --single-branch --branch fraunhofer_uge_support https://github.com/yigbt/uap.git /opt/uap
+    git clone --single-branch --branch bcl2fastq https://github.com/yigbt/uap.git /opt/uap
     
     # install uap
     ./opt/uap/bootstrap.sh
