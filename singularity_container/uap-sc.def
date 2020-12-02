@@ -6,6 +6,8 @@ Stage: build
 
 %files
 	environment.yml
+	bcl2fastq2-v2.20.0.422-Source.tar.gz
+	
 
 %post
 
@@ -27,19 +29,34 @@ Stage: build
     apt-get install --yes libc6
     apt-get install --yes g++
     apt-get install --yes unzip
+    apt-get install --yes build-essential
+    apt-get install --yes zlib1g
+    apt-get install --yes zlib1g-dev
+
+    # install zlib
+    cd tmp/
+    wget http://www.zlib.net/zlib-1.2.11.tar.gz 2> /dev/null
+    tar -xvzf zlib-1.2.11.tar.gz
+    cd zlib-1.2.11/
+    ./configure
+    make install
+    cd ../../
 
     # Configure default locale
     locale-gen de_DE.UTF-8
     locale-gen en_US.UTF-8
     update-locale LANG=de_DE.UTF-8
 
+    mkdir -p /usr/include/sys
+    ln -s /usr/include/x86_64-linux-gnu/sys/stat.h /usr/include/sys/stat.h
+
+    
     # install bcl2fastq
+    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
     cd tmp/
-    wget --no-check-certificate https://files.softwaredownloads.illumina.com/82660c4c-f46c-4743-8566-2437755e4329/bcl2fastq2-v2-20-0-tar.zip?Expires=1606909378&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9maWxlcy5zb2Z0d2FyZWRvd25sb2Fkcy5pbGx1bWluYS5jb20vODI2NjBjNGMtZjQ2Yy00NzQzLTg1NjYtMjQzNzc1NWU0MzI5L2JjbDJmYXN0cTItdjItMjAtMC10YXIuemlwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjA2OTA5Mzc4fX19XX0_&Signature=BwlgFarsRws2qP6Gw7ioFgVst7RRA3yoyUW3yDJRkX68snmbLWR1sZ8-kL6jLBP1YCwd~4Q38RntRrVdt-y51mqUMw9kB~ivAx11ARfpD9V5weoSzRDDnK8AZgsdYs3I587U2Pa3Gb0VTsWJzQXV37zd58HR6wKu0eoVDVVtiPr0VIh2sS0hlB0TMSXaECsGRvoz-Zhvgn8oroqAf-nL28keFU8uZh8o~tnbdw9-Txpc0d8lc8~9de0BwmNGGHjKihJmzpm0Z-bkJh~d7JLC9QbBlk-wYr-BWc1LIyQ5Ps09FWmocvbSurWMUaTD8p9r7HLeiRWuLXqX2yS8fSK5cw__&Key-Pair-Id=APKAJO3UYWPXK4A26FPQ
-    unzip bcl2fastq2-v2-20-0-tar.zip
     tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
     cd bcl2fastq/
-    mkdir bcl2fastq-build
+    mkdir -p bcl2fastq-build
     cd bcl2fastq-build/
     ../src/configure --prefix=/opt/bcl2fastq
     make
