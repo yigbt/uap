@@ -151,7 +151,7 @@ class Hisat2(AbstractStep):
         # note to self just allow R F U and if paired in extend accordingly
         # otherwise mixed single paired will not work
         # Truseq is RF (R)
-        self.add_option('rna-strandness', str, choices=["R", "F", "U"],
+        self.add_option('rna-strandness', str, choices=["R", "F", "U", "FR", "RF"],
                         default=None, optional=False,
                         description="Specify strand-specific information \
                         (unstranded); paired and are extended F->FR, R->RF")
