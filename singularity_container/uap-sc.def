@@ -6,7 +6,7 @@ Stage: build
 
 %files
 	environment.yml
-	#bcl2fastq2-v2.20.0.422-Source.tar.gz
+	bcl2fastq2-v2.20.0.422-Source.tar.gz
 	
 
 %post
@@ -30,17 +30,17 @@ Stage: build
     apt-get install --yes g++
     apt-get install --yes unzip
     apt-get install --yes build-essential
-    apt-get install --yes zlib1g
-    apt-get install --yes zlib1g-dev
+    #apt-get install --yes zlib1g
+    #apt-get install --yes zlib1g-dev
 
     # install zlib
-    cd tmp/
-    wget http://www.zlib.net/zlib-1.2.11.tar.gz 2> /dev/null
-    tar -xvzf zlib-1.2.11.tar.gz
-    cd zlib-1.2.11/
-    ./configure
-    make install
-    cd ../../
+    #cd tmp/
+    #wget http://www.zlib.net/zlib-1.2.11.tar.gz 2> /dev/null
+    #tar -xvzf zlib-1.2.11.tar.gz
+    #cd zlib-1.2.11/
+    #./configure
+    #make install
+    #cd ../../
 
     # Configure default locale
     locale-gen de_DE.UTF-8
@@ -49,18 +49,9 @@ Stage: build
 
     mkdir -p /usr/include/sys
     ln -s /usr/include/x86_64-linux-gnu/sys/stat.h /usr/include/sys/stat.h
+    #ln -s /lib/x86_64-linux-gnu/libz.so.1.2.11 /lib/x86_64-linux-gnu/libz.so
+    #ln -s /usr/local/lib/libz.a /lib/x86_64-linux-gnu/libz.a
 
-    
-    # install bcl2fastq
-    #cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
-    #cd tmp/
-    #tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
-    #cd bcl2fastq/
-    #mkdir -p bcl2fastq-build
-    #cd bcl2fastq-build/
-    #../src/configure --prefix=/opt/bcl2fastq
-    #make
-    #make install
 
     # Miniconda3 .. uses python3.7!
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -77,6 +68,18 @@ Stage: build
     # activate the conda environment
     conda activate uap_python3_v1.0
 
+    # install bcl2fastq
+    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
+    cd tmp/
+    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
+    cd bcl2fastq/
+    mkdir -p bcl2fastq-build
+    cd bcl2fastq-build/
+    ../src/configure --prefix=/opt/bcl2fastq
+    make
+    make install
+
+    
     # Das repo von uap für Python3 clonen
     git clone --single-branch --branch bcl2fastq https://github.com/yigbt/uap.git /opt/uap
     
