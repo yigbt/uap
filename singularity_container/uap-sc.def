@@ -1,86 +1,102 @@
-Bootstrap: library
-From: ubuntu:18.04
+Bootstrap: docker
+From: continuumio/miniconda3
 Stage: build
 
-%setup
-
 %files
-	environment.yml
+    environment.yaml
 
 %post
+  CONDA_DIR=/opt/conda/
+  
 
+  # prep environment
+  bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yaml"
+
+  # Install conda-pack:
+  bash -c ". /etc/profile.d/conda.sh; conda install -c conda-forge conda-pack"
+
+  # Use conda-pack to create a standalone enviornment
+  # in /venv:
+  bash -c ". /etc/profile.d/conda.sh; conda info"
+  bash -c ". /etc/profile.d/conda.sh; conda env list"
+
+  bash -c ". /etc/profile.d/conda.sh; conda activate base; conda-pack -n uap_python3_v1.0 -o /tmp/env.tar"
+  mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
+  rm /tmp/env.tar
+
+  # We've put venv in same path it'll be in final image,
+  # so now fix up paths:
+  /venv/bin/conda-unpack
+   
+Bootstrap: library
+From: ubuntu:18.04
+Stage: final
+
+# install binary from stage one
+%files from build
+  /venv /venv
+
+%post
     NOW=`date`
+    CONDA_DIR=/venv
     echo "export NOW=\"${NOW}\"" >> $SINGULARITY_ENVIRONMENT
-
+    echo "export CONDA_DIR=\"${CONDA_DIR}\"" >> $SINGULARITY_ENVIRONMENT
+    
     apt-get update
     # bash needed since the runscript uses sh otherwise which seems
     # insufficient for sourcing the conda shell environment and
     # activation of the env
-    apt-get install --yes bash
-    apt-get install --yes wget
-    apt-get install --yes tar
-    apt-get install --yes bzip2
+    #apt-get install --yes bash
+    #apt-get install --yes wget
+    #apt-get install --yes tar
+    #apt-get install --yes bzip2
     apt-get install --yes git
     apt-get install --yes gcc
-    apt-get install --yes nano
+    #apt-get install --yes nano
     apt-get install --yes locales
 
     # Configure default locale
     locale-gen de_DE.UTF-8
     locale-gen en_US.UTF-8
     update-locale LANG=de_DE.UTF-8
-
-    # Miniconda3 .. uses python3.7!
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p /usr/local/miniconda3
-  
-    # COMMENT `source` ging bei mir nicht (keine Ahnung warum)
-    # also `.`
-    . /usr/local/miniconda3/etc/profile.d/conda.sh
-
-    # COMMENT ich wuerde die packages immer auf einmal installieren 
-    # also in einem conda install befehl oder gleich beim conda create
-    bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yml"
-
-    # activate the conda environment
-    conda activate uap_python3_v1.0
-
-    # Das repo von uap für Python3 clonen
-    git clone --single-branch --branch fraunhofer_uge_support https://github.com/yigbt/uap.git /opt/uap
     
-    # install uap
-    ./opt/uap/bootstrap.sh
-   
-   # COMMENT create scripts to use qsub/qstat via ssh
+    git clone --single-branch --branch fraunhofer_uge_support https://github.com/yigbt/uap.git /opt/uap
+    /bin/bash -c ". $CONDA_DIR/etc/profile.d/conda.sh; conda activate /venv; ./opt/uap/bootstrap.sh"
+    
+    # COMMENT create scripts to use qsub/qstat via ssh
    cat > /usr/bin/ssh_dummy.sh << EOF
 #!/bin/bash
-[[ "\$1" == "-help" ]] && echo "Wrapper for UGE qstat in singularity container."
 ssh \$(hostname) \$(basename \$0) \$@ 2> /dev/null
 EOF
    chmod ugo+x /usr/bin/ssh_dummy.sh
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qsub
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qstat
-   
-%environment
 
+    echo "## Activate uap_python3_v1.0 conda environment" >> /.start_uap_python3_v1.0
+    echo "source $CONDA_DIR/etc/profile.d/conda.sh" >> /.start_uap_python3_v1.0
+    echo "conda activate /venv" >> /.start_uap_python3_v1.0
+    df -h
+    du -hs /venv
+
+%environment
+    CONDA_DIR=/opt/local/miniconda3
     export PATH=$PATH:/usr/local/miniconda3/bin
     export PATH=$PATH:/opt/uap
     export BASH_ENV="/usr/local/miniconda3/etc/profile.d/conda.sh"
 
 %runscript
-
+     
     echo "Container was created on: $NOW"
     echo "Arguments received: $*"
     # COMMENT use bash since sh seems insufficient for conda
 
     /bin/bash <<EOF
-. /usr/local/miniconda3/etc/profile.d/conda.sh
-conda activate uap_python3_v1.0
+. $CONDA_DIR/etc/profile.d/conda.sh
+conda activate /venv
 
 uap $@ 
 EOF
 
-%startscript
 
 %test
 
@@ -90,14 +106,14 @@ EOF
     else
         echo "Container base is not Ubuntu."
     fi
-
+    
 %labels
 
-    Author Sebastian Canzler
+    Author Sebastian Canzler, Julienne Lehmann
     Version 0.1
     Maintainer Sebastian Canzler
     Contact sebastian.canzler@ufz.de
-
+    
 %help
 
     Run uap (Universal Analysis Pipeline) with Python 3 support inside this container
@@ -105,22 +121,21 @@ EOF
     Version 1.0
 
     The following tools are currently supplied in this singularity container:
-    adapterremoval            2.3.1
-    bowtie2                   2.4.2
-    bwa                       0.7.17
     cufflinks                 2.2.1
     cutadapt                  2.10
-    fastqc                    0.11.4
+    fastqc                    0.11.9
     fastx_toolkit             0.0.14
-    hisat2                    2.2.1
+    hisat2                    2.2.0
     htseq                     0.12.4
-    kallisto                  0.46.2
-    macs2		      2.2.7.1
     samtools                  1.9
+    stringtie                 2.1.2
+    adapterremoval            2.3.1
+    salmon                    1.3.0
+    bwa                       0.7.17
+    bowtie2                   2.4.2
+    ucsc-fetchchromsizes      377
+    segemehl                  0.3.4
     preseq                    2.0.3
     picard                    2.18.7
-    salmon                    1.3.0
-    segemehl                  0.3.4
+    kallisto                  0.46.2
     star                      2.7.6a
-    stringtie                 2.1.2
-    ucsc-fetchchromsizes      377
