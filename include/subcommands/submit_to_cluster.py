@@ -262,7 +262,7 @@ def main(args):
             f.write(submit_script)
         submit_script_args.append(submit_script_path)
 
-        print( " ".join(submit_script.args), "\n")
+        print( " ".join(submit_script_args), "\n")
         process = None
         try:
             process = subprocess.Popen(
