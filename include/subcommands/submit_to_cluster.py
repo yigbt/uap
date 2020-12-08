@@ -200,6 +200,8 @@ def main(args):
 
         submit_script = submit_script.replace("#{COMMAND}", ' '.join(command))
 
+
+        print( "\n\nSubmit Script: \n", submit_script, "\n\n\n")
         # create the output directory if it doesn't exist yet
         tasks = tasks_left[step_name]
         for task in tasks:
@@ -260,6 +262,7 @@ def main(args):
             f.write(submit_script)
         submit_script_args.append(submit_script_path)
 
+        print( " ".join(submit_script.args), "\n")
         process = None
         try:
             process = subprocess.Popen(
@@ -279,7 +282,7 @@ def main(args):
         job_id = re.search(
             p.get_cluster_command('parse_job_id'), response)
         if not job_id:
-            raise UAPError('Got unexpected from %s resposne: %s' %
+            raise UAPError('Got unexpected from %s response: %s' %
                            (p.get_cluster_type(), response))
         else:
             job_id = job_id.group(1)
