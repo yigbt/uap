@@ -201,7 +201,6 @@ def main(args):
         submit_script = submit_script.replace("#{COMMAND}", ' '.join(command))
 
 
-        print( "\n\nSubmit Script: \n", submit_script, "\n\n\n")
         # create the output directory if it doesn't exist yet
         tasks = tasks_left[step_name]
         for task in tasks:
@@ -262,7 +261,6 @@ def main(args):
             f.write(submit_script)
         submit_script_args.append(submit_script_path)
 
-        print( " ".join(submit_script_args), "\n")
         process = None
         try:
             process = subprocess.Popen(
