@@ -3,7 +3,7 @@ From: continuumio/miniconda3
 Stage: build
 
 %files
-    environment.yaml
+    environment.yml
 
 %post
   CONDA_DIR=/opt/conda/
