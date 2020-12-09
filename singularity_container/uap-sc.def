@@ -10,7 +10,7 @@ Stage: build
   
 
   # prep environment
-  bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yaml"
+  bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yml"
 
   # Install conda-pack:
   bash -c ". /etc/profile.d/conda.sh; conda install -c conda-forge conda-pack"
