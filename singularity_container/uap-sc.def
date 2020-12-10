@@ -30,8 +30,8 @@ Stage: build
     apt-get install --yes g++
     apt-get install --yes unzip
     apt-get install --yes build-essential
-    #apt-get install --yes zlib1g
-    #apt-get install --yes zlib1g-dev
+    apt-get install --yes zlib1g
+    apt-get install --yes zlib1g-dev
 
     # install zlib
     #cd tmp/
@@ -41,6 +41,21 @@ Stage: build
     #./configure
     #make install
     #cd ../../
+
+
+    
+    # install bcl2fastq
+    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
+    cd tmp/
+    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
+    cd bcl2fastq/
+    mkdir -p bcl2fastq-build
+    cd bcl2fastq-build/
+    ../src/configure --prefix=/opt/bcl2fastq
+    make
+    make install
+    cd ../../../
+    ln -s /opt/bcl2fastq/bin/bcl2fastq /usr/bin/bcl2fastq
 
     # Configure default locale
     locale-gen de_DE.UTF-8
@@ -63,21 +78,10 @@ Stage: build
 
     # COMMENT ich wuerde die packages immer auf einmal installieren 
     # also in einem conda install befehl oder gleich beim conda create
-    bash -c ". /etc/profile.d/conda.sh; conda env create -f environment.yml"
+    bash -c ". /usr/local/miniconda3/etc/profile.d/conda.sh; conda env create -f environment.yml"
 
     # activate the conda environment
     conda activate uap_python3_v1.0
-
-    # install bcl2fastq
-    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
-    cd tmp/
-    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
-    cd bcl2fastq/
-    mkdir -p bcl2fastq-build
-    cd bcl2fastq-build/
-    ../src/configure --prefix=/opt/bcl2fastq
-    make
-    make install
 
     
     # Das repo von uap für Python3 clonen
@@ -99,7 +103,7 @@ EOF
 %environment
 
     export PATH=$PATH:/usr/local/miniconda3/bin
-    export PATH=$PATH:/opt/uap
+    export PATH=$PATH:/opt/uap:/opt/bcl2fastq
     export BASH_ENV="/usr/local/miniconda3/etc/profile.d/conda.sh"
 
 %runscript
