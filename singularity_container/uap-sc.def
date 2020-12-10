@@ -24,6 +24,7 @@ Stage: build
     apt-get install --yes gcc
     apt-get install --yes nano
     apt-get install --yes locales
+    apt-get install --yes libfontconfig1
 
     # Configure default locale
     locale-gen de_DE.UTF-8
