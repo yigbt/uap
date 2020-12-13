@@ -21,6 +21,8 @@ dependencies:
   - cairo=1.16.0
   - certifi=2020.11.8
   - chrpath=0.16
+  - conda=4.8.4
+  - conda-build=3.20.3 
   - cufflinks=2.2.1
   - curl=7.71.1
   - cutadapt=2.10
