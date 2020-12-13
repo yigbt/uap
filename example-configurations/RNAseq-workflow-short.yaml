@@ -13,10 +13,11 @@
 #     # example for SLURM grid engine
 #     default_submit_options: "--cpus-per-task=#{CORES} --ntasks=1"
 #     # example for UGE/SGE respectively OGS
-#     default_submit_options: "-pe smp #{CORES} -cwd -S /bin/bash -l h_rt=24:00:00 -l h_vmem=6G"
+#     default_submit_options: "-pe smp #{CORES} -cwd -S /bin/bash -m as -M [email] -l h_rt=24:00:00 -l h_vmem=6G" #change [email] to your email adress
 #     default_pre_job_command: "echo 'Run Started!'"
 #     default_post_job_command: "echo 'Run Finished!'"
 #     default_job_quota: 5
+#     singularity_container: "/global/apps/uap/uap.sif" #Path to the singularity container for this workflow
 
 ################################################################################
 ## Destination Path Section                                                   ##
@@ -25,7 +26,7 @@
 ## - directory where analysis results get stored                              ##
 ################################################################################
 
-destination_path: example-out/2014-Mercer_et_al
+destination_path: /data/bioinf/projects/data/2020_Singularity_testing/testlehmanju
 
 ################################################################################
 ## Constants Section                                                          ##
@@ -35,24 +36,24 @@ destination_path: example-out/2014-Mercer_et_al
 ################################################################################
 
 constants:
+    # temporary sort directories
+    # PLEASE ADJUST
+    - &tsort_pos "/work/lehmanju/temp/Singularity_RNAworkflow_Test_temp/"
     # 1.  Genome Information:
     # 1.1 Complete Sequence (FASTA)
-    #- &genome
-    #    genomes/animalia/chordata/mammalia/primates/homo_sapiens/hg19/hg19_UCSC_complete_genome/hg19_all_chr_UCSC-all_sequences-Tc5RkRKM/hg19_all_chr_UCSC-all_sequences.fasta
+    - &genome
+      "/data/db/ebi/pub/databases/gencode/Gencode_human/release_29/GRCh38.primary_assembly.genome/2019-04-08/GRCh38.primary_assembly.genome.fa"
 
     # 1.2 FASTA index
-    - &genome_faidx 
-        genomes/animalia/chordata/mammalia/primates/homo_sapiens/hg19/samtools_faidx/chr21-jcfQZAjo/chr21.fa.fai
+    - &genome_faidx "/data/galaxy_server/galaxy/tool-data/hg38_gencode29/sam_indexes/hg38_gencode29/GRCh38.primary_assembly.genome.fa.fai"
 
     # 2.  Mapping Indices:
-    # 2.1 Bowtie2
-    - &bowtie2_genome_index
-        genomes/animalia/chordata/mammalia/primates/homo_sapiens/hg19/bowtie2_generate_index/bowtie2_index-download/bowtie2_index-download
-
+    # 2.1 Hisat2 index
+    - &ht2-idx "/data/galaxy_server/galaxy/tool-data/hg38_gencode29/hisat2_index/hg38_gencode29/hg38_gencode29"
+    
     # 3.  Gencode Annotation:
     # 3.1 Version 24
-    - &gencode_v19_annotation_gtf
-        genomes/animalia/chordata/mammalia/primates/homo_sapiens/gencode/v19/gencode_v19_annotation/gencode.v19.annotation.gtf
+    - &gencode_v19_annotation_gtf "/data/db/ebi/pub/databases/gencode/Gencode_human/release_29/gencode.v29/2018-11-07/gencode.v29.primary_assembly.annotation.gtf"
 
 ################################################################################
 ## Steps Section                                                              ##
@@ -67,43 +68,70 @@ steps:
     #################
     fastq_source:
         sample_to_files_map:
-            capture_RNA:
-                - example-out/2014-Mercer_et_al_download/SRR1032214_1_download/download/SRR1032214_1.fastq
-                - example-out/2014-Mercer_et_al_download/SRR1032214_2_download/download/SRR1032214_2.fastq
-        paired_end: yes
-        first_read: _1.fastq
-        second_read: _2.fastq
+            Repl1:
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl1_R1_trimmed.fastq.gz'
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl1_R2_trimmed.fastq.gz'
+            Repl2:
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl2_R1_trimmed.fastq.gz'
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl2_R2_trimmed.fastq.gz'
+            Repl3:
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl3_R1_trimmed.fastq.gz'
+                - '/data/bioinf/projects/data/2020_PrepKitTest/trimmed_fastq/NEBnext_LNCaP_Repl3_R2_trimmed.fastq.gz'
+        paired_end: True
+        first_read: '_R1_trimmed.fastq.gz'
+        second_read: '_R2_trimmed.fastq.gz'
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
     fastqc:
       _depends: fastq_source
+      _cluster_submit_options: "-binding linear:1 -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=168:00:00 -l h_vmem=8G"
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
     fastx_quality_stats:
       _depends: fastq_source
+      _cluster_submit_options: "-pe smp 2 -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=168:00:00 -l h_vmem=4G"      
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
-    tophat2:
+    hisat2:
         _depends: fastq_source
-        library_type: fr-secondstrand
-        index: *bowtie2_genome_index
+        _cluster_submit_options: "-pe smp 4 -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=168:00:00 -l h_vmem=8G"
+        index: *ht2-idx
+        cores: 4
+        library_type: "fr"
+        rna-strandness: "U"
+        dta: true
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
-    sort_tophat2_by_pos (sam_to_sorted_bam):
-        _depends: tophat2
-        sort-by-name: no
+    samtools_filter_sort_pos (samtools):
+        _depends: hisat2
+        _cluster_submit_options: "-pe smp 2 -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=24:00:00 -l h_vmem=8G"
+        keep_header: true
+        output_bam: true
+        sort-by-name: false
         genome-faidx: *genome_faidx
-        temp-sort-dir: '/tmp/'
+        q_mapq: 20 # skip reads with map quality lower than 20, consider skipping this!
+        temp-sort-dir: *tsort_pos
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
-    count_genes_tophat2 (htseq_count):
-        _depends: sort_tophat2_by_pos
+    htseq_count:
+        _depends: samtools_filter_sort_pos
+        _cluster_submit_options: "-pe smp 2  -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=24:00:00 -l h_vmem=14G -l highmem"
         feature-file: *gencode_v19_annotation_gtf
-        order: pos
+        order: 'pos'
         stranded: 'yes'
-        mode: intersection-strict
-        type: exon
-        idattr: gene_id
+        mode: 'intersection-strict'
+        type: 'exon'
+        idattr: 'gene_id'
+        dd-blocksize: '4M'
+        pigz-blocksize: '4096'
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
-    cufflinks_tophat2 (cufflinks):
-        _depends: sort_tophat2_by_pos
+    cufflinks:
+        _depends: samtools_filter_sort_pos
+        _cluster_submit_options: "-pe smp 2  -cwd -S /bin/bash -m as -M julienne.lehmann@ufz.de -l h_rt=8:00:00 -l h_vmem=8G"
         library-type: fr-secondstrand
         mask-file: *gencode_v19_annotation_gtf
+#         _singularity_container: '/gloabl/apps/uap/uap.sif' #while using a seperated singularity container for this step, set the path for the singularity container 
 
 ################################################################################
 ## Tools Section                                                              ##
@@ -155,9 +183,9 @@ tools:
         get_version: '--version'
         exit_code: 0
 
-    # URL: http://ccb.jhu.edu/software/tophat/index.shtml
-    tophat2:
-        path: tophat2
+    # URL: http://daehwankimlab.github.io/hisat2/manual/
+    hisat2:
+        path: hisat2
         get_version: --version
         exit_code: 0
 
@@ -171,7 +199,7 @@ tools:
     # Unix Tools #
     ##############
 
-    tar:
-        path: 'tar'
-        get_version: '--version'
-        exit_code: 0
+    #tar:
+        #path: 'tar'
+        #get_version: '--version'
+        #exit_code: 0
