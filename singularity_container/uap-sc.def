@@ -73,7 +73,7 @@ EOF
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qsub
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qstat
 
-   ln -s /venv/lib/libstdc++.so.6 /venv/lib/libstdc++.so.6.0.28
+   ln -s /venv/lib/libstdc++.so.6.0.28 /venv/lib/libstdc++.so.6
 
 %environment
     CONDA_DIR=/venv
