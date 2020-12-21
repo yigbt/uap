@@ -67,6 +67,7 @@ Stage: final
     # COMMENT create scripts to use qsub/qstat via ssh
    cat > /usr/bin/ssh_dummy.sh << EOF
 #!/bin/bash
+[[ "\$1" == "-help" ]] && echo "Wrapper for UGE qstat in singularity container."
 ssh \$(hostname) \$(basename \$0) \$@ 2> /dev/null
 EOF
    chmod ugo+x /usr/bin/ssh_dummy.sh
