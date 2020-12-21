@@ -73,17 +73,13 @@ EOF
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qsub
    ln -s /usr/bin/ssh_dummy.sh /usr/bin/qstat
 
-    echo "## Activate uap_python3_v1.0 conda environment" >> /.start_uap_python3_v1.0
-    echo "source $CONDA_DIR/etc/profile.d/conda.sh" >> /.start_uap_python3_v1.0
-    echo "conda activate /venv" >> /.start_uap_python3_v1.0
-    df -h
-    du -hs /venv
+   ln -s /venv/lib/libstdc++.so.6 /venv/lib/libstdc++.so.6.0.28
 
 %environment
-    CONDA_DIR=/opt/local/miniconda3
+    CONDA_DIR=/venv
     export PATH=$PATH:/usr/local/miniconda3/bin
     export PATH=$PATH:/opt/uap
-    export BASH_ENV="/usr/local/miniconda3/etc/profile.d/conda.sh"
+    export BASH_ENV=$CONDA_DIR/etc/profile.d/conda.sh
 
 %runscript
      
