@@ -431,7 +431,7 @@ class Hisat2(AbstractStep):
         elif not paired_end and library_type:
             raise StepError(self, 'Library type %s is specified for single '
                             'end reads.' % library_type)
-
+        
         for run_id in cc.keys():
             with self.declare_run(run_id) as run:
                 # Get list of files for first/second read
@@ -454,7 +454,7 @@ class Hisat2(AbstractStep):
                                 else:
                                     hisat2.extend(['--' + flag])
 
-                        if paired_end:
+                        if paired_end and library_type:
                             hisat2.append('--%s' % library_type)
 
                         for flag in strflags:
@@ -470,10 +470,9 @@ class Hisat2(AbstractStep):
                                        os.path.abspath(self.get_option('index'))])
 
                         if paired_end:
-                            if self.get_option('rna-strandness') == 'F':
-                                hisat2.extend(['--rna-strandness', 'FR'])
-                            elif self.get_option('rna-strandness') == 'R':
-                                hisat2.extend(['--rna-strandness', 'RF'])
+                            hisat2.extend([
+                                    '--rna-strandness',
+                                    self.get_option('rna-strandness')])
 
                             hisat2.extend([
                                 '-1', fr_input,
