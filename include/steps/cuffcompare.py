@@ -139,11 +139,7 @@ class CuffCompare(AbstractStep):
 
         for run_id in run_ids_connections_files.keys():
 
-            print( "\nALL ids:\n", "\n".join(run_ids_connections_files.keys()), "\n")
-            print( "Current run_id", run_id, "\n\n")
-            
             run_id = self.get_option('run_id')
-            print( "\n\nRun_id:\n", run_id, "\n")
             
             with self.declare_run(run_id) as run:
 
