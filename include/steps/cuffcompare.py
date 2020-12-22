@@ -139,8 +139,12 @@ class CuffCompare(AbstractStep):
 
         for run_id in run_ids_connections_files.keys():
 
+            print( "\nALL ids:\n", "\n".join(run_ids_connections_files.keys()), "\n")
+            print( "Current run_id", run_id, "\n\n")
+            
             run_id = self.get_option('run_id')
-
+            print( "\n\nRun_id:\n", run_id, "\n")
+            
             with self.declare_run(run_id) as run:
 
                 input_paths = run_ids_connections_files[run_id]['in/features']
@@ -189,8 +193,6 @@ class CuffCompare(AbstractStep):
                 # iii) add input file
 #                cuffcompare.extend(input_paths[0])
                 cuffcompare.extend(in_file)
-
-                print( "\n\nCuffCompare Command:\n", " ".join(cuffcompare), "\n\n")
                 
                 with run.new_exec_group() as cc_exec_group:
                     cc_exec_group.add_command(cuffcompare,
