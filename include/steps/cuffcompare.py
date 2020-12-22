@@ -190,6 +190,8 @@ class CuffCompare(AbstractStep):
 #                cuffcompare.extend(input_paths[0])
                 cuffcompare.extend(in_file)
 
+                print( "\n\nCuffCompare Command:\n", " ".join(cuffcompare), "\n\n")
+                
                 with run.new_exec_group() as cc_exec_group:
                     cc_exec_group.add_command(cuffcompare,
                                               stderr_path=log_err_file)
