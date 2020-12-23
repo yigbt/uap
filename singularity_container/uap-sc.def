@@ -1,73 +1,66 @@
 Bootstrap: library
-From: ubuntu:18.04
+From: centos:7
 Stage: build
 
 %setup
 
 %files
 	environment.yml
-	bcl2fastq2-v2.20.0.422-Source.tar.gz
-	
+	bcl-convert-3.6.3-1.el7.x86_64.rpm
 
 %post
 
     NOW=`date`
     echo "export NOW=\"${NOW}\"" >> $SINGULARITY_ENVIRONMENT
 
-    apt-get update
     # bash needed since the runscript uses sh otherwise which seems
     # insufficient for sourcing the conda shell environment and
     # activation of the env
-    apt-get install --yes bash
-    apt-get install --yes wget
-    apt-get install --yes tar
-    apt-get install --yes bzip2
-    apt-get install --yes git
-    apt-get install --yes gcc
-    apt-get install --yes nano
-    apt-get install --yes locales
-    apt-get install --yes libc6
-    apt-get install --yes g++
-    apt-get install --yes unzip
-    apt-get install --yes build-essential
-    apt-get install --yes zlib1g
-    apt-get install --yes zlib1g-dev
+    yum install --assumeyes bash
+    yum install --assumeyes wget
+    yum install --assumeyes tar 
+    yum install --assumeyes bzip2
+    yum install --assumeyes git
+    yum install --assumeyes gcc
+    yum install --assumeyes gcc-c++  # g++ in yum
+    yum install --assumeyes nano
+#    yum install --assumeyes locales
+    yum install --assumeyes glibc-devel   # libc6 in yum
+    yum install --assumeyes glibc-devel.i686
+    yum install --assumeyes make
+    yum install --assumeyes unzip
+    yum install --assumeyes zlib-devel
+    yum install --assumeyes which
+    yum install --assumeyes fontconfig
+    yum install --assumeyes libfontconfig.so.1
+    yum install --assumeyes libstdc++.so.6
 
-    # install zlib
-    #cd tmp/
-    #wget http://www.zlib.net/zlib-1.2.11.tar.gz 2> /dev/null
-    #tar -xvzf zlib-1.2.11.tar.gz
-    #cd zlib-1.2.11/
-    #./configure
-    #make install
-    #cd ../../
-
-
-    
     # install bcl2fastq
-    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
-    cd tmp/
-    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
-    cd bcl2fastq/
-    mkdir -p bcl2fastq-build
-    cd bcl2fastq-build/
-    ../src/configure --prefix=/opt/bcl2fastq
-    make
-    make install
-    cd ../../../
-    ln -s /opt/bcl2fastq/bin/bcl2fastq /usr/bin/bcl2fastq
-
-    # Configure default locale
-    locale-gen de_DE.UTF-8
-    locale-gen en_US.UTF-8
-    update-locale LANG=de_DE.UTF-8
-
-    mkdir -p /usr/include/sys
-    ln -s /usr/include/x86_64-linux-gnu/sys/stat.h /usr/include/sys/stat.h
-    #ln -s /lib/x86_64-linux-gnu/libz.so.1.2.11 /lib/x86_64-linux-gnu/libz.so
-    #ln -s /usr/local/lib/libz.a /lib/x86_64-linux-gnu/libz.a
-
-
+    yum localinstall --assumeyes bcl-convert-3.6.3-1.el7.x86_64.rpm
+    
+#    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
+#    cd tmp/
+#    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
+#    cd bcl2fastq/
+#    mkdir -p bcl2fastq-build
+#    cd bcl2fastq-build/
+#    ../src/configure --prefix=/opt/bcl2fastq
+#    make
+#    make install
+#    cd ../../../
+#    ln -s /opt/bcl2fastq/bin/bcl2fastq /usr/bin/bcl2fastq
+#
+#    # Configure default locale
+#    locale-gen de_DE.UTF-8
+#    locale-gen en_US.UTF-8
+#    update-locale LANG=de_DE.UTF-8
+#
+#    mkdir -p /usr/include/sys
+#    ln -s /usr/include/x86_64-linux-gnu/sys/stat.h /usr/include/sys/stat.h
+#    #ln -s /lib/x86_64-linux-gnu/libz.so.1.2.11 /lib/x86_64-linux-gnu/libz.so
+#    #ln -s /usr/local/lib/libz.a /lib/x86_64-linux-gnu/libz.a
+#
+#
     # Miniconda3 .. uses python3.7!
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /usr/local/miniconda3
@@ -103,7 +96,7 @@ EOF
 %environment
 
     export PATH=$PATH:/usr/local/miniconda3/bin
-    export PATH=$PATH:/opt/uap:/opt/bcl2fastq
+    export PATH=$PATH:/opt/uap   # :/opt/bcl2fastq
     export BASH_ENV="/usr/local/miniconda3/etc/profile.d/conda.sh"
 
 %runscript
@@ -123,11 +116,11 @@ EOF
 
 %test
 
-    grep -q NAME=\"Ubuntu\" /etc/os-release
+    grep -q NAME=\"CentOS\ Linux\" /etc/os-release
     if [ $? -eq 0 ]; then
-        echo "Container base is Ubuntu as expected."
+        echo "Container base is CentOS as expected."
     else
-        echo "Container base is not Ubuntu."
+        echo "Container base is not CentOS."
     fi
 
 %labels
