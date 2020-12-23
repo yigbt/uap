@@ -106,7 +106,7 @@ def write_t_obj(t_obj):
 
     for i in gtf_dicts:
         t_list = []
-        keys = i.keys()
+        keys = list(i.keys())
         for key in keys[8:]:
             opt_id = key
             opt_val = str(i[key])
