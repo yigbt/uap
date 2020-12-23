@@ -149,6 +149,7 @@ class StringtieMerge(AbstractStep):
         for run_id in assembling_runs:
             stringtie_sample_gtf.append(cc[run_id]['in/features'][0])
 
+        stringtie_sample_gtf = sorted( stringtie_sample_gtf)
         run_id = self.get_option('output_prefix')
         run = self.declare_run(run_id)
 
