@@ -38,29 +38,12 @@ Stage: build
     # install bcl2fastq
     yum localinstall --assumeyes bcl-convert-3.6.3-1.el7.x86_64.rpm
     
-#    cp bcl2fastq2-v2.20.0.422-Source.tar.gz tmp/
-#    cd tmp/
-#    tar -xzvf bcl2fastq2-v2.20.0.422-Source.tar.gz 2> /dev/null
-#    cd bcl2fastq/
-#    mkdir -p bcl2fastq-build
-#    cd bcl2fastq-build/
-#    ../src/configure --prefix=/opt/bcl2fastq
-#    make
-#    make install
-#    cd ../../../
-#    ln -s /opt/bcl2fastq/bin/bcl2fastq /usr/bin/bcl2fastq
-#
 #    # Configure default locale
 #    locale-gen de_DE.UTF-8
 #    locale-gen en_US.UTF-8
 #    update-locale LANG=de_DE.UTF-8
 #
-#    mkdir -p /usr/include/sys
-#    ln -s /usr/include/x86_64-linux-gnu/sys/stat.h /usr/include/sys/stat.h
-#    #ln -s /lib/x86_64-linux-gnu/libz.so.1.2.11 /lib/x86_64-linux-gnu/libz.so
-#    #ln -s /usr/local/lib/libz.a /lib/x86_64-linux-gnu/libz.a
-#
-#
+
     # Miniconda3 .. uses python3.7!
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /usr/local/miniconda3
@@ -78,7 +61,7 @@ Stage: build
 
     
     # Das repo von uap für Python3 clonen
-    git clone --single-branch --branch bcl2fastq https://github.com/yigbt/uap.git /opt/uap
+    git clone --single-branch --branch fraunhofer_uge_support https://github.com/yigbt/uap.git /opt/uap
     
     # install uap
     ./opt/uap/bootstrap.sh
@@ -96,7 +79,7 @@ EOF
 %environment
 
     export PATH=$PATH:/usr/local/miniconda3/bin
-    export PATH=$PATH:/opt/uap   # :/opt/bcl2fastq
+    export PATH=$PATH:/opt/uap
     export BASH_ENV="/usr/local/miniconda3/etc/profile.d/conda.sh"
 
 %runscript
@@ -126,7 +109,7 @@ EOF
 %labels
 
     Author Sebastian Canzler
-    Version 0.1
+    Version 0.2
     Maintainer Sebastian Canzler
     Contact sebastian.canzler@ufz.de
 
