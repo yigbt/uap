@@ -92,6 +92,8 @@ EOF
 . $CONDA_DIR/etc/profile.d/conda.sh
 conda activate /venv
 
+/venv/bin/htseq-count -h
+
 uap $@ 
 EOF
 
