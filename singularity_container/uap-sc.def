@@ -81,7 +81,7 @@ EOF
     export PATH=$PATH:/usr/local/miniconda3/bin
     export PATH=$PATH:/opt/uap
     export BASH_ENV=$CONDA_DIR/etc/profile.d/conda.sh
-    export PYTHONPATH=/venv/lib/python3.6/site-packages:$PYTHONPATH
+    export PYTHONPATH=/venv/lib/python3.6/site-packages
 
 %runscript
      
