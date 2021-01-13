@@ -138,6 +138,9 @@ class HtSeqCount(AbstractStep):
             pathvar = os.environ['PATH']
             logger.warning("PATH variable:\n %s", pathvar)
 
+            pathvar = os.environ['PYTHONPATH']
+            logger.warning("PYTHONPATH variable:\n %s", pathvar)
+
             which = subprocess.check_output(["which", "htseq-count"])
             logger.warning( "Which htseq-count shall be used: %s", which)
 
