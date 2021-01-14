@@ -127,27 +127,6 @@ class HtSeqCount(AbstractStep):
                     input_paths[0])
 
             alignments_path = input_paths[0]
-
-
-            ## print some information about PATHs and python modules
-
-            test = importlib.util.find_spec("HTSeq")
-            found = test is not None
-            logger.warning("\nPackage HTSeq is present: %s\n", found)
-
-            pathvar = os.environ['PATH']
-            logger.warning("PATH variable:\n %s", pathvar)
-
-            pathvar = os.environ['PYTHONPATH']
-            logger.warning("PYTHONPATH variable:\n %s", pathvar)
-
-            which = subprocess.check_output(["which", "htseq-count"])
-            logger.warning( "Which htseq-count shall be used: %s", which)
-
-            which = subprocess.check_output(["which", "python"])
-            logger.warning( "Which python shall be used: %s", which)
-
-            logger.warning( "Path to search for modules: \n %s", sys.path)
             
             with self.declare_run(run_id) as run:
                 with run.new_exec_group() as exec_group:
