@@ -151,7 +151,7 @@ class HtSeqCount(AbstractStep):
                         # 3. Use samtools to generate SAM output
                         if is_bam:
                             samtools = [self.get_tool('samtools'), 'view',
-                                        '-']
+                                        '-h', '-']
                             pipe.add_command(samtools)
 
                         # 4. Count reads with htseq-count
