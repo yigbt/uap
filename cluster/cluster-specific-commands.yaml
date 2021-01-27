@@ -19,7 +19,7 @@ slurm:
     parse_job_id: 'Submitted batch job (\d+)'
     
 singularity_slurm:
-    identity_test: ['sbatch', '--help']
+    identity_test: ['sbatch', '--version']
     identity_answer: 'Wrapper for SLURM'
     submit: 'sbatch'
     stat: 'squeue'
@@ -28,11 +28,11 @@ singularity_slurm:
     default_options: '--cpus-per-task=#{CORES}'
     hold_jid: '--dependency=afterany:%s'
     hold_jid_separator: ':'
-    array_start_index: 0
-    array_job: '--array=0-%s'
-    array_job_wquota: '--array=0-%s%%%s'
+    array_start_index: 1
+    array_job: '--array=1-%s'
+    array_job_wquota: '--array=1-%s%%%s'
     array_out_index: '%A_%a'
-    array_task_id: 'SLURM_ARRAY_TASK_ID'
+    array_task_id: '((SLURM_ARRAY_TASK_ID-1))'
     set_job_name: '--job-name=%s'
     set_stderr: '-e'
     set_stdout: '-o'
