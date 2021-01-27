@@ -17,6 +17,26 @@ slurm:
     set_stderr: '-e'
     set_stdout: '-o'
     parse_job_id: 'Submitted batch job (\d+)'
+    
+singularity_slurm:
+    identity_test: ['sbatch', '--help']
+    identity_answer: 'Wrapper for SLURM'
+    submit: 'sbatch'
+    stat: 'squeue'
+    last_error: 'cluster/util_scripts/slurm_first_error.sh'
+    template: 'cluster/submit-scripts/sbatch-template.sh'
+    default_options: '--cpus-per-task=#{CORES}'
+    hold_jid: '--dependency=afterany:%s'
+    hold_jid_separator: ':'
+    array_start_index: 0
+    array_job: '--array=0-%s'
+    array_job_wquota: '--array=0-%s%%%s'
+    array_out_index: '%A_%a'
+    array_task_id: 'SLURM_ARRAY_TASK_ID'
+    set_job_name: '--job-name=%s'
+    set_stderr: '-e'
+    set_stdout: '-o'
+    parse_job_id: 'Submitted batch job (\d+)'
 
 singularity_qstat:
     identity_test: ['qstat', '-help']

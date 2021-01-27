@@ -65,14 +65,25 @@ Stage: final
     /bin/bash -c ". $CONDA_DIR/etc/profile.d/conda.sh; conda activate /venv; ./opt/uap/bootstrap.sh"
     
     # COMMENT create scripts to use qsub/qstat via ssh
-   cat > /usr/bin/ssh_dummy.sh << EOF
+   cat > /usr/bin/ssh_dummy_UGE.sh << EOF
 #!/bin/bash
 [[ "\$1" == "-help" ]] && echo "Wrapper for UGE qstat in singularity container."
 ssh \$(hostname) \$(basename \$0) \$@ 2> /dev/null
 EOF
-   chmod ugo+x /usr/bin/ssh_dummy.sh
-   ln -s /usr/bin/ssh_dummy.sh /usr/bin/qsub
-   ln -s /usr/bin/ssh_dummy.sh /usr/bin/qstat
+   chmod ugo+x /usr/bin/ssh_dummy_UGE.sh
+   ln -s /usr/bin/ssh_dummy_UGE.sh /usr/bin/qsub
+   ln -s /usr/bin/ssh_dummy_UGE.sh /usr/bin/qstat
+
+
+# COMMENT create scripts to use sbatch/squeue via ssh
+   cat > /usr/bin/ssh_dummy_SLURM.sh << EOF
+#!/bin/bash
+[[ "\$1" == "-help" ]] && echo "Wrapper for SLURM in singularity container."
+ssh \$(hostname) \$(basename \$0) \$@ 2> /dev/null
+EOF
+   chmod ugo+x /usr/bin/ssh_dummy_SLURM.sh
+   ln -s /usr/bin/ssh_dummy_SLURM.sh /usr/bin/sbatch
+   ln -s /usr/bin/ssh_dummy_SLURM.sh /usr/bin/squeue
 
    ln -s -f /venv/lib/libstdc++.so.6.0.28 /venv/lib/libstdc++.so.6
 
@@ -109,7 +120,7 @@ EOF
 %labels
 
     Author Sebastian Canzler, Julienne Lehmann
-    Version 0.1
+    Version 0.2
     Maintainer Sebastian Canzler
     Contact sebastian.canzler@ufz.de
     
