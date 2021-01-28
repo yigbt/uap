@@ -1065,9 +1065,6 @@ class Pipeline(object):
         return None
 
     def get_cluster_type(self):
-        print( "Cluster Type:\n")
-        print( self._cluster_type)
-        print( "\n\n")
         return self._cluster_type
 
     def set_cluster_type(self, cluster_type):

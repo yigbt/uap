@@ -260,10 +260,7 @@ def main(args):
         with open(submit_script_path, 'wt', encoding='utf-8') as f:
             f.write(submit_script)
         submit_script_args.append(submit_script_path)
-
-
-        print("\n\n", submit_script_args, "\n\n")
-        
+ 
         process = None
         try:
             process = subprocess.Popen(
